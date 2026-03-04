@@ -1,4 +1,3 @@
-import Footer from "./components/Footer";
 function Footer() {
   return (
     <footer style={{ backgroundColor: "#2c3e50", color: "white", padding: "10px", textAlign: "center" }}>
