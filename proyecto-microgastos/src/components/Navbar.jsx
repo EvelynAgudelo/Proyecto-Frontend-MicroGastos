@@ -1,17 +1,16 @@
+
 function Navbar() {
   return (
-    <nav 
-      style={{
-        backgroundColor: '#2c3e50',
-        color: 'white',
-        padding: '15px',
-        textAlign: 'center',
-      }}
-    >
-      <h2>MicroGastos</h2>
-      <p>Controla tus gastos hormiga</p>
+    <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
+      <h1 className="text-xl font-bold">💸 MicroGastos</h1>
+
+      <div className="space-x-4">
+        <Link to="/" className="hover:text-gray-300">Login</Link>
+        <Link to="/register" className="hover:text-gray-300">Registro</Link>
+        <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
+      </div>
     </nav>
-    );
+  );
 }
 
-export default Navbar;  
+export default Navbar;
