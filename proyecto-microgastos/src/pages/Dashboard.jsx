@@ -3,7 +3,7 @@ import { useEffect } from "react";
 function Dashboard() {
   useEffect(() => {
     console.log("Cargando datos...");
-  }, []);
+  },[]);
 
   return (
     <div>
@@ -25,5 +25,4 @@ function Dashboard() {
     </div>
   );
 }
-
 export default Dashboard;
