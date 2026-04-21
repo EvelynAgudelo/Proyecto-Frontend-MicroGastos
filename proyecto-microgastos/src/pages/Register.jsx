@@ -17,9 +17,10 @@ function Register(){
         if(!nombre || !apellido || !email || !password){
             Swal.fire({
                 icon: "error",
-                tittle: "Todos los campos son obligatorios",
+                title: "Todos los campos son obligatorios",
             });
             return;
         }
     }
 }
+export default Register;
