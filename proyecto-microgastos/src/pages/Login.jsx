@@ -28,4 +28,11 @@ function Login() {
   );
 }
 
+<p className="text-sm mt-4 text-center">
+  ¿No tienes cuenta?{" "}
+  <Link to="/register" className="text-blue-500">
+    Regístrate
+  </Link>
+</p>
+
 export default Login;

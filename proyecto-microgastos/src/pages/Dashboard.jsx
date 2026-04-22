@@ -14,11 +14,11 @@ function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-xl mb-4">Dashboard</h1>
+      <h1 className="text-xl mb-4">Historial de gastos</h1>
 
       {gastos.map((g) => (
         <div key={g.id} className="bg-white p-3 mb-2 rounded shadow">
-          {g.concepto} - ${g.monto}
+          {g.concepto} - ${g.monto} ({g.categoria})
         </div>
       ))}
     </div>
