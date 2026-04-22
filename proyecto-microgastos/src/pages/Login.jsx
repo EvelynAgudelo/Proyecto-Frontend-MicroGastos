@@ -15,33 +15,30 @@ function Login() {
   }, []);
 
   const handleLogin = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!email || !password) {
-      Swal.fire({ icon: "error", title: "Campos vacíos" });
-      return;
-    }
+  // 1. Obtener el usuario guardado en el localStorage
+  const savedUser = JSON.parse(localStorage.getItem("user"));
 
-    const user = JSON.parse(localStorage.getItem("user"));
+  if (!savedUser) {
+    Swal.fire({ icon: "error", title: "No hay usuarios registrados" });
+    return;
+  }
 
-    if (!user) {
-      Swal.fire({ icon: "error", title: "No hay usuario registrado" });
-      return;
-    }
+  // 2. Comparar credenciales
+  if (email === savedUser.email && password === savedUser.password) {
+    localStorage.setItem("session", "activa"); // Crea la sesión activa
 
-    if (email === user.email && password === user.password) {
-      localStorage.setItem("session", "activa");
+    Swal.fire({
+      icon: "success",
+      title: `Bienvenido ${savedUser.nombre}`,
+    });
 
-      Swal.fire({
-        icon: "success",
-        title: `Bienvenido ${user.nombre} ${user.apellido}`,
-      });
-
-      navigate("/dashboard");
-    } else {
-      Swal.fire({ icon: "error", title: "Credenciales incorrectas" });
-    }
-  };
+    navigate("/dashboard");
+  } else {
+    Swal.fire({ icon: "error", title: "Credenciales incorrectas" });
+  }
+};
 
   return (
     <div className="flex justify-center items-center h-[80vh]">

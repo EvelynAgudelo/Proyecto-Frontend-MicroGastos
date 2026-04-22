@@ -4,18 +4,11 @@ import Swal from "sweetalert2";
 
 function Dashboard() {
   const [gastos, setGastos] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
+  // Leemos el usuario para mostrar el saludo personalizado
+  const user = JSON.parse(localStorage.getItem("user")); 
 
   useEffect(() => {
-    const cargar = async () => {
-      try {
-        const data = await getGastos();
-        setGastos(data);
-      } catch (error) {
-        Swal.fire({ icon: "error", title: "Error cargando gastos" });
-      }
-    };
-    cargar();
+    // ... lógica de cargar gastos
   }, []);
 
   return (

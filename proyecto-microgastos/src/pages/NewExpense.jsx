@@ -3,69 +3,91 @@ import Swal from "sweetalert2";
 import { createGasto } from "../api/api";
 
 function NewExpense() {
-    const [monto, setMonto] = useState("");
-    const [concepto, setConcepto] = useState("");
-    const [categoria, setCategoria] = useState("");
+  // 1. Estados para capturar los datos (HU06)
+  const [monto, setMonto] = useState("");
+  const [concepto, setConcepto] = useState("");
+  const [categoria, setCategoria] = useState("");
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validar campos obligatorios
     if (!monto || !concepto || !categoria) {
-        Swal.fire({ icon: "error", title: "Campos obligatorios" });
-        return;
+      Swal.fire({ 
+        icon: "error", 
+        title: "Campos obligatorios", 
+        text: "Por favor llena todos los campos del gasto." 
+      });
+      return;
     }
 
-    await createGasto({ monto, concepto, categoria });
-    Swal.fire({ icon: "success", title: "Gasto creado" });
+    try {
+      // 2. Enviar a la API (HU07)
+      await createGasto({ monto, concepto, categoria });
 
-    setMonto("");
-    setConcepto("");
-    setCategoria("");
-    };
+      // 3. Notificación visual de éxito (HU09)
+      Swal.fire({ 
+        icon: "success", 
+        title: "Gasto guardado",
+        text: "El gasto se registró correctamente en el sistema." 
+      });
 
-    return (
-        <form onSubmit={handleSubmit} className="max-w-sm mx-auto bg-white p-6 rounded shadow">
-        <input value={monto} onChange={(e)=>setMonto(e.target.value)} placeholder="Monto" className="w-full mb-3 p-2 border" />
-        <input value={concepto} onChange={(e)=>setConcepto(e.target.value)} placeholder="Concepto" className="w-full mb-3 p-2 border" />
-
-        <select value={categoria} onChange={(e)=>setCategoria(e.target.value)} className="w-full mb-3 p-2 border">
-            <option value="">Categoría</option>
-            <option>Comida</option>
-            <option>Transporte</option>
-        </select>
-
-        <button className="w-full bg-green-600 text-white p-2">Guardar</button>
-        </form>
-        );
-    Swal.fire({
-    icon: "success",
-    title: "Gasto guardado correctamente",
-    text: "Tu gasto fue registrado correctamente",
-});
-    setMonto("");
-    setConcepto("");
-    setCategoria("");
+      // Limpiar el formulario
+      setMonto("");
+      setConcepto("");
+      setCategoria("");
+    } catch (error) {
+      Swal.fire({ 
+        icon: "error", 
+        title: "Error al guardar", 
+        text: "No se pudo conectar con el servidor." 
+      });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto bg-white p-6 rounded shadow">
-      <input value={monto} onChange={(e)=>setMonto(e.target.value)} placeholder="Monto" className="w-full mb-3 p-2 border"/>
-      <input value={concepto} onChange={(e)=>setConcepto(e.target.value)} placeholder="Concepto" className="w-full mb-3 p-2 border"/>
+    <div className="max-w-sm mx-auto bg-white p-6 rounded shadow-lg">
+      <h2 className="text-xl font-bold mb-4 text-center">Registrar Nuevo Gasto</h2>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="number"
+          value={monto} 
+          onChange={(e) => setMonto(e.target.value)} 
+          placeholder="Monto (ej. 5000)" 
+          className="w-full mb-3 p-2 border rounded"
+        />
+        <input 
+          type="text"
+          value={concepto} 
+          onChange={(e) => setConcepto(e.target.value)} 
+          placeholder="Concepto (ej. Almuerzo)" 
+          className="w-full mb-3 p-2 border rounded"
+        />
 
-      <select value={categoria} onChange={(e)=>setCategoria(e.target.value)} className="w-full mb-3 p-2 border">
-        <option value="">Categoría</option>
-        <option>Comida</option>
-        <option>Transporte</option>
-        <option>Viaje</option>
-        <option>Servicios publicos</option>
-        <option>Salud</option>
-        <option>Educación</option>
-        <option>Entretenimiento</option>
-        <option>Otros</option>
-      </select>
+        <select 
+          value={categoria} 
+          onChange={(e) => setCategoria(e.target.value)} 
+          className="w-full mb-3 p-2 border rounded"
+        >
+          <option value="">Selecciona una categoría</option>
+          <option value="Comida">Comida</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Viaje">Viaje</option>
+          <option value="Servicios públicos">Servicios públicos</option>
+          <option value="Salud">Salud</option>
+          <option value="Educación">Educación</option>
+          <option value="Entretenimiento">Entretenimiento</option>
+          <option value="Otros">Otros</option>
+        </select>
 
-      <button className="w-full bg-green-600 text-white p-2">Guardar</button>
-    </form>
+        <button 
+          type="submit"
+          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 transition-colors"
+        >
+          Guardar Gasto
+        </button>
+      </form>
+    </div>
   );
 }
 
