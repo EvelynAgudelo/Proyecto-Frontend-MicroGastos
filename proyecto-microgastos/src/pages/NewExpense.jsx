@@ -17,8 +17,11 @@ function NewExpense() {
 
     await createGasto({ monto, concepto, categoria });
 
-    Swal.fire({ icon: "success", title: "Gasto guardado" });
-
+    Swal.fire({
+    icon: "success",
+    title: "Gasto guardado correctamente",
+    text: "Tu gasto fue registrado correctamente",
+});
     setMonto("");
     setConcepto("");
     setCategoria("");
@@ -33,6 +36,12 @@ function NewExpense() {
         <option value="">Categoría</option>
         <option>Comida</option>
         <option>Transporte</option>
+        <option>Viaje</option>
+        <option>Servicios publicos</option>
+        <option>Salud</option>
+        <option>Educación</option>
+        <option>Entretenimiento</option>
+        <option>Otros</option>
       </select>
 
       <button className="w-full bg-green-600 text-white p-2">Guardar</button>
