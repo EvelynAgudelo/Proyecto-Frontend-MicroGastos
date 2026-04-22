@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Register() {
@@ -7,14 +7,13 @@ function Register() {
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
 
     if (!nombre || !apellido || !email || !password) {
-      Swal.fire({ icon: "error", title: "Todos los campos son obligatorios" });
+      Swal.fire({ icon: "error", title: "Campos obligatorios" });
       return;
     }
 
@@ -28,18 +27,20 @@ function Register() {
 
   return (
     <div className="flex justify-center items-center h-[80vh]">
-      <form onSubmit={handleRegister} className="bg-white p-8 rounded-xl shadow w-80">
-        <h1 className="text-xl mb-4 text-center">Registro</h1>
+      <form onSubmit={handleRegister} className="bg-white p-8 rounded-xl shadow-lg w-80">
+        <h1 className="text-2xl font-bold mb-6 text-center">Registro</h1>
 
-        <input className="w-full mb-3 p-2 border" placeholder="Nombre" onChange={(e)=>setNombre(e.target.value)} />
-        <input className="w-full mb-3 p-2 border" placeholder="Apellido" onChange={(e)=>setApellido(e.target.value)} />
-        <input className="w-full mb-3 p-2 border" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
-        <input type="password" className="w-full mb-3 p-2 border" placeholder="Contraseña" onChange={(e)=>setPassword(e.target.value)} />
+        <input placeholder="Nombre" className="w-full p-2 border rounded mb-3" onChange={(e)=>setNombre(e.target.value)} />
+        <input placeholder="Apellido" className="w-full p-2 border rounded mb-3" onChange={(e)=>setApellido(e.target.value)} />
+        <input placeholder="Email" className="w-full p-2 border rounded mb-3" onChange={(e)=>setEmail(e.target.value)} />
+        <input type="password" placeholder="Contraseña" className="w-full p-2 border rounded mb-3" onChange={(e)=>setPassword(e.target.value)} />
 
-        <button className="w-full bg-green-500 text-white p-2">Registrar</button>
+        <button className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
+          Registrarse
+        </button>
 
         <p className="text-sm mt-4 text-center">
-          ¿Ya tienes cuenta? <Link to="/">Inicia sesión</Link>
+          ¿Ya tienes cuenta? <Link to="/" className="text-blue-500">Login</Link>
         </p>
       </form>
     </div>
