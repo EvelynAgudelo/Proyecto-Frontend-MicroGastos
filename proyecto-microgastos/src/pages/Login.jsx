@@ -22,11 +22,25 @@ function Login() {
       return;
     }
 
-    localStorage.setItem("session", "activa");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    Swal.fire({ icon: "success", title: "Bienvenido" });
+    if (!user) {
+      Swal.fire({ icon: "error", title: "No hay usuario registrado" });
+      return;
+    }
 
-    navigate("/dashboard");
+    if (email === user.email && password === user.password) {
+      localStorage.setItem("session", "activa");
+
+      Swal.fire({
+        icon: "success",
+        title: `Bienvenido ${user.nombre} ${user.apellido}`,
+      });
+
+      navigate("/dashboard");
+    } else {
+      Swal.fire({ icon: "error", title: "Credenciales incorrectas" });
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ function Login() {
         <button className="w-full bg-blue-500 text-white p-2">Ingresar</button>
 
         <p className="text-sm mt-4 text-center">
-          ¿No tienes cuenta? <Link to="/register" className="text-blue-500">Regístrate</Link>
+          ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
         </p>
       </form>
     </div>
