@@ -1,22 +1,15 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:8080";
 
-export const endpoints = {
-  login: "/auth/login",
-  gastos: "/gastos",
+export const getGastos = async () => {
+  const res = await fetch(BASE_URL + "/gastos");
+  return res.json();
 };
 
-export const getData = async (endpoint) => {
-  const response = await fetch(BASE_URL + endpoint);
-  return response.json();
-};
-
-export const postData = async (endpoint, data) => {
-  const response = await fetch(BASE_URL + endpoint, {
+export const createGasto = async (gasto) => {
+  const res = await fetch(BASE_URL + "/gastos", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(gasto),
   });
-  return response.json();
+  return res.json();
 };
