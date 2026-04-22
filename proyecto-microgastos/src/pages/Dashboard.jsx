@@ -1,28 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getGastos } from "../api/api";
 
 function Dashboard() {
+  const [gastos, setGastos] = useState([]);
+
   useEffect(() => {
-    console.log("Cargando datos...");
-  },[]);
+    const cargar = async () => {
+      const data = await getGastos();
+      setGastos(data);
+    };
+    cargar();
+  }, []);
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+      <h1 className="text-xl mb-4">Dashboard</h1>
 
-      <div className="grid grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow text-center">
-          💰 <p className="font-bold">Gastos Hoy</p>
+      {gastos.map((g) => (
+        <div key={g.id} className="bg-white p-3 mb-2 rounded shadow">
+          {g.concepto} - ${g.monto}
         </div>
-
-        <div className="bg-white p-6 rounded-xl shadow text-center">
-          📊 <p className="font-bold">Total Mes</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow text-center">
-          🗂️ <p className="font-bold">Categorías</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }
+
 export default Dashboard;
