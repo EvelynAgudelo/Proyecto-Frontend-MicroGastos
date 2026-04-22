@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const session = localStorage.getItem("session");
+    if (session === "activa") {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -13,18 +22,28 @@ function Login() {
       return;
     }
 
-    Swal.fire({ icon: "success", title: "Login correcto" });
+    localStorage.setItem("session", "activa");
+
+    Swal.fire({ icon: "success", title: "Bienvenido" });
+
+    navigate("/dashboard");
   };
 
   return (
-    <form onSubmit={handleLogin} className="max-w-sm mx-auto bg-white p-6 rounded shadow">
-      <h1 className="text-xl mb-4">Login</h1>
+    <div className="flex justify-center items-center h-[80vh]">
+      <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow w-80">
+        <h1 className="text-xl mb-4 text-center">Login</h1>
 
-      <input className="w-full mb-3 p-2 border" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
-      <input className="w-full mb-3 p-2 border" type="password" placeholder="Contraseña" onChange={(e)=>setPassword(e.target.value)} />
+        <input className="w-full mb-3 p-2 border" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+        <input type="password" className="w-full mb-3 p-2 border" placeholder="Contraseña" onChange={(e)=>setPassword(e.target.value)} />
 
-      <button className="w-full bg-blue-500 text-white p-2">Ingresar</button>
-    </form>
+        <button className="w-full bg-blue-500 text-white p-2">Ingresar</button>
+
+        <p className="text-sm mt-4 text-center">
+          ¿No tienes cuenta? <Link to="/register" className="text-blue-500">Regístrate</Link>
+        </p>
+      </form>
+    </div>
   );
 }
 
