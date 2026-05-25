@@ -1,4 +1,14 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { registrarUsuario } from "../services/usuarioService";
+
+function Register() {
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -30,7 +40,9 @@ import { useState } from "react";
         onSubmit={handleRegister}
         className="bg-white p-8 rounded-xl shadow w-96"
       >
-        <h1 className="text-2xl mb-5 text-center font-bold">Registro</h1>
+        <h1 className="text-2xl mb-5 text-center font-bold">
+          Registro
+        </h1>
 
         <input
           className="w-full mb-3 p-2 border rounded"
@@ -58,6 +70,6 @@ import { useState } from "react";
       </form>
     </div>
   );
-
+}
 
 export default Register;
