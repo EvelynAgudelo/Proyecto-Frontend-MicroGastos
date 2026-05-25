@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { createGasto } from "../api/api";
 
 function NewExpense() {
-  // 1. Estados para capturar los datos (HU06)
+  // 1. Estados para capturar los datos 
   const [monto, setMonto] = useState("");
   const [concepto, setConcepto] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -22,10 +22,10 @@ function NewExpense() {
     }
 
     try {
-      // 2. Enviar a la API (HU07)
+      // 2. Enviar a la API 
       await createGasto({ monto, concepto, categoria });
 
-      // 3. Notificación visual de éxito (HU09)
+      // 3. Notificación visual de éxito
       Swal.fire({ 
         icon: "success", 
         title: "Gasto guardado",
