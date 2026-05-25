@@ -1,90 +1,67 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { createGasto } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 function NewExpense() {
-  // 1. Estados para capturar los datos 
-  const [monto, setMonto] = useState("");
-  const [concepto, setConcepto] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [valor, setValor] = useState("");
   const [categoria, setCategoria] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar campos obligatorios
-    if (!monto || !concepto || !categoria) {
-      Swal.fire({ 
-        icon: "error", 
-        title: "Campos obligatorios", 
-        text: "Por favor llena todos los campos del gasto." 
-      });
-      return;
-    }
-
     try {
-      // 2. Enviar a la API 
-      await createGasto({ monto, concepto, categoria });
-
-      // 3. Notificación visual de éxito
-      Swal.fire({ 
-        icon: "success", 
-        title: "Gasto guardado",
-        text: "El gasto se registró correctamente en el sistema." 
+      await crearGasto({
+        descripcion,
+        valor,
+        categoria,
       });
 
-      // Limpiar el formulario
-      setMonto("");
-      setConcepto("");
-      setCategoria("");
+      Swal.fire({
+        icon: "success",
+        title: "Gasto creado",
+      });
+
+      navigate("/dashboard");
     } catch (error) {
-      Swal.fire({ 
-        icon: "error", 
-        title: "Error al guardar", 
-        text: "No se pudo conectar con el servidor." 
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear gasto",
       });
     }
   };
 
   return (
-    <div className="max-w-sm mx-auto bg-white p-6 rounded shadow-lg">
-      <h2 className="text-xl font-bold mb-4 text-center">Registrar Nuevo Gasto</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
+    <div className="flex justify-center items-center mt-10">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow p-8 rounded-xl w-96"
+      >
+        <h1 className="text-2xl font-bold mb-5">Nuevo Gasto</h1>
+
+        <input
+          className="w-full border p-2 mb-3 rounded"
+          placeholder="Descripción"
+          onChange={(e) => setDescripcion(e.target.value)}
+        />
+
+        <input
           type="number"
-          value={monto} 
-          onChange={(e) => setMonto(e.target.value)} 
-          placeholder="Monto (ej. 5000)" 
-          className="w-full mb-3 p-2 border rounded"
-        />
-        <input 
-          type="text"
-          value={concepto} 
-          onChange={(e) => setConcepto(e.target.value)} 
-          placeholder="Concepto (ej. Almuerzo)" 
-          className="w-full mb-3 p-2 border rounded"
+          className="w-full border p-2 mb-3 rounded"
+          placeholder="Valor"
+          onChange={(e) => setValor(e.target.value)}
         />
 
-        <select 
-          value={categoria} 
-          onChange={(e) => setCategoria(e.target.value)} 
-          className="w-full mb-3 p-2 border rounded"
-        >
-          <option value="">Selecciona una categoría</option>
-          <option value="Comida">Comida</option>
-          <option value="Transporte">Transporte</option>
-          <option value="Viaje">Viaje</option>
-          <option value="Servicios públicos">Servicios públicos</option>
-          <option value="Salud">Salud</option>
-          <option value="Educación">Educación</option>
-          <option value="Entretenimiento">Entretenimiento</option>
-          <option value="Otros">Otros</option>
-        </select>
+        <input
+          className="w-full border p-2 mb-3 rounded"
+          placeholder="Categoría"
+          onChange={(e) => setCategoria(e.target.value)}
+        />
 
-        <button 
-          type="submit"
-          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 transition-colors"
-        >
-          Guardar Gasto
+        <button className="w-full bg-blue-500 text-white p-2 rounded">
+          Guardar
         </button>
       </form>
     </div>
