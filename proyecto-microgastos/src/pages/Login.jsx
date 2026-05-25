@@ -1,68 +1,72 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-
+import { useState } from "react";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const session = localStorage.getItem("session");
-    if (session === "activa") {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await loginUsuario({
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
+
+      Swal.fire({
+        icon: "success",
+        title: "Bienvenido",
+      });
+
       navigate("/dashboard");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Credenciales incorrectas",
+      });
     }
-  }, []);
-
-  const handleLogin = (e) => {
-  e.preventDefault();
-
-  // 1. Obtener el usuario guardado en el localStorage
-  const savedUser = JSON.parse(localStorage.getItem("user"));
-
-  if (!savedUser) {
-    Swal.fire({ icon: "error", title: "No hay usuarios registrados" });
-    return;
-  }
-
-  // 2. Comparar credenciales
-  if (email === savedUser.email && password === savedUser.password) {
-    localStorage.setItem("session", "activa"); // Crea la sesión activa
-
-    Swal.fire({
-      icon: "success",
-      title: `Bienvenido ${savedUser.nombre}`,
-    });
-
-    navigate("/dashboard");
-  } else {
-    Swal.fire({ icon: "error", title: "Credenciales incorrectas" });
-  }
-};
+  };
 
   return (
     <div className="flex justify-center items-center h-[80vh]">
-      <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow w-80">
-        <h1 className="text-xl mb-4 text-center">Login</h1>
+      <form
+        onSubmit={handleLogin}
+        className="bg-white p-8 rounded-xl shadow w-80">
+        <h1 className="text-2xl mb-5 text-center font-bold">Login</h1>
 
-        <input className="w-full mb-3 p-2 border" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
-        <input type="password" className="w-full mb-3 p-2 border" placeholder="Contraseña" onChange={(e)=>setPassword(e.target.value)} />
+        <input
+          className="w-full mb-3 p-2 border rounded"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <button className="w-full bg-blue-500 text-white p-2">Ingresar</button>
+        <input
+          type="password"
+          className="w-full mb-3 p-2 border rounded"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button className="w-full bg-blue-500 text-white p-2 rounded">
+          Ingresar
+        </button>
 
         <p className="text-sm mt-4 text-center">
-          ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+          ¿No tienes cuenta?
+          <Link to="/register" className="text-blue-500 ml-1">
+            Regístrate
+          </Link>
         </p>
       </form>
     </div>
   );
 }
-
-<p className="text-sm mt-4 text-center">
-  ¿No tienes cuenta?{" "}
-  <Link to="/register" className="text-blue-500">
-    Regístrate
-  </Link>
-</p>
 
 export default Login;
