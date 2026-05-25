@@ -1,7 +1,7 @@
 function Footer() {
   return (
-    <footer style={{ backgroundColor: "#2c3e50", color: "white", padding: "10px", textAlign: "center" }}>
-    <p>© 2026 MicroGastos. Controla tus gastos hormiga.</p>
+    <footer className="bg-gray-900 text-white text-center py-3">
+      © 2026 MicroGastos
     </footer>
   );
 }
