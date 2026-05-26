@@ -15,9 +15,15 @@ function Register() {
 
     try {
       await registrarUsuario({
-        nombre,
-        email,
-        password,
+        nombre: nombre,
+        tipoDocumento: "CedulaCiudadania",
+        documento: Date.now().toString(),
+        edad: 20,
+        correo: email,
+        numeroCelular: "3" + Date.now().toString().slice(-9),
+        genero: "Femenino",
+        activo: "Activo",
+        ciudad: "Medellin",
       });
 
       Swal.fire({
@@ -30,6 +36,7 @@ function Register() {
       Swal.fire({
         icon: "error",
         title: "Error al registrar",
+        text: "Revisa que el correo no esté repetido.",
       });
     }
   };
@@ -40,13 +47,12 @@ function Register() {
         onSubmit={handleRegister}
         className="bg-white p-8 rounded-xl shadow w-96"
       >
-        <h1 className="text-2xl mb-5 text-center font-bold">
-          Registro
-        </h1>
+        <h1 className="text-2xl mb-5 text-center font-bold">Registro</h1>
 
         <input
           className="w-full mb-3 p-2 border rounded"
           placeholder="Nombre"
+          value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
 
@@ -54,6 +60,7 @@ function Register() {
           className="w-full mb-3 p-2 border rounded"
           placeholder="Email"
           type="email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
@@ -61,6 +68,7 @@ function Register() {
           type="password"
           className="w-full mb-3 p-2 border rounded"
           placeholder="Contraseña"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 

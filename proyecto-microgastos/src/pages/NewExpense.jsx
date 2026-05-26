@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { crearGasto } from "../services/gastoService";
 
 function NewExpense() {
   const [descripcion, setDescripcion] = useState("");
@@ -15,8 +16,9 @@ function NewExpense() {
     try {
       await crearGasto({
         descripcion,
-        valor,
-        categoria,
+        valor: Number(valor),
+        fecha: new Date().toISOString().split("T")[0],
+        icono: "gasto",
       });
 
       Swal.fire({
@@ -44,6 +46,7 @@ function NewExpense() {
         <input
           className="w-full border p-2 mb-3 rounded"
           placeholder="Descripción"
+          value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
         />
 
@@ -51,12 +54,14 @@ function NewExpense() {
           type="number"
           className="w-full border p-2 mb-3 rounded"
           placeholder="Valor"
+          value={valor}
           onChange={(e) => setValor(e.target.value)}
         />
 
         <input
           className="w-full border p-2 mb-3 rounded"
           placeholder="Categoría"
+          value={categoria}
           onChange={(e) => setCategoria(e.target.value)}
         />
 

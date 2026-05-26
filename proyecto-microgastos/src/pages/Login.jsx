@@ -19,6 +19,7 @@ function Login() {
       });
 
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 
       Swal.fire({
         icon: "success",
@@ -40,9 +41,7 @@ function Login() {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-xl shadow w-80"
       >
-        <h1 className="text-2xl mb-5 text-center font-bold">
-          Login
-        </h1>
+        <h1 className="text-2xl mb-5 text-center font-bold">Login</h1>
 
         <input
           className="w-full mb-3 p-2 border rounded"
@@ -67,9 +66,7 @@ function Login() {
           Ingresar
         </button>
 
-        <p className="text-center mt-4">
-          ¿No tienes cuenta?
-        </p>
+        <p className="text-center mt-4">¿No tienes cuenta?</p>
 
         <Link
           to="/register"
