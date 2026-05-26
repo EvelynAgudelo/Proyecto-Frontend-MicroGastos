@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { loginUsuario } from "../services/usuarioService";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +19,6 @@ function Login() {
       });
 
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 
       Swal.fire({
         icon: "success",
@@ -32,11 +35,14 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-[80vh]">
+    <div className="flex justify-center items-center h-screen bg-gray-100">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded-xl shadow w-80">
-        <h1 className="text-2xl mb-5 text-center font-bold">Login</h1>
+        className="bg-white p-8 rounded-xl shadow w-80"
+      >
+        <h1 className="text-2xl mb-5 text-center font-bold">
+          Login
+        </h1>
 
         <input
           className="w-full mb-3 p-2 border rounded"
@@ -54,16 +60,23 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="w-full bg-blue-500 text-white p-2 rounded">
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded"
+        >
           Ingresar
         </button>
 
-        <p className="text-sm mt-4 text-center">
+        <p className="text-center mt-4">
           ¿No tienes cuenta?
-          <Link to="/register" className="text-blue-500 ml-1">
-            Regístrate
-          </Link>
         </p>
+
+        <Link
+          to="/register"
+          className="block text-center mt-2 bg-green-500 text-white p-2 rounded"
+        >
+          Registrarse
+        </Link>
       </form>
     </div>
   );
